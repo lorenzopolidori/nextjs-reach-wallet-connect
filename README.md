@@ -4,7 +4,7 @@ We want to crate a simple NextJS React web application to allow users to connect
 ## How to import reach stdlib in a nextjs project
 Nextjs web applications use Server Side Rendering (SSR) by default. This means that app dependencies are compiled and bundled in a node environment on the backend before generating the web pages and returning the HTML code to the browser. When doing so, the `window` object - that is normally available on a browser javascript environment - is not defined.
 
-Let's try this firts hand. Let's create a simple nextjs app and install reach:
+Let's try this first hand. Let's create a simple nextjs app and install reach:
 
 ```bash
 npx create-next-app --use-npm
@@ -112,7 +112,7 @@ export default function Home() {
 This now works as expected. It also has the advantage of loading and rendering the static page very quickly, while the Reach client libraries are downloaded in the background. 
 Loading `stdlib` and `ALGO_MyAlgoConnect` in parallel is also a further optimization and it works with no issues.
 
-Let's not try to add support for WalletConnect, which will enable using Pera Wallet.
+Let's now try to add support for WalletConnect, which will enable using Pera Wallet.
 
 If we try to dynamically load `ALGO_WalletConnect` library in parallel with `stdlib` and `ALGO_MyAlgoConnect` in `useEffect`, as follows:
 
@@ -136,7 +136,7 @@ shared_backend.mjs?fa3d:187 Uncaught (in promise) TypeError: Cannot read propert
 ```
 
 It seems that `ALGO_WalletConnect` cannot find a `utils` variable used in `shared_backend.mjs`.
-This might be because of missing dependencies defined in reach `stdlib`, so we can try to dynamically load as below:
+This might be because of missing dependencies defined in reach `stdlib`, so we can try to dynamically load `ALGO_WalletConnect` after `stdlib` is fully loaded, as below:
 
 ```js
 useEffect(() => {
@@ -157,5 +157,3 @@ useEffect(() => {
 ```
 
 but with no luck, we still get the same error.
-
-
