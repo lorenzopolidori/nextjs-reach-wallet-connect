@@ -31,7 +31,7 @@ ReferenceError: window is not defined
 This error happened while generating the page. Any console logs will be displayed in the terminal window.
 ```
 
-This happens because one of the dependencies of the `MyAlgoConnect` library uses `windows` in its implementation:
+This happens because one of the dependencies of the `MyAlgoConnect` library uses `window` in its implementation:
 
 ```
 at Messenger._installListener (/node_modules/@randlabs/communication-bridge/lib/messenger.js:144:3)
