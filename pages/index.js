@@ -37,20 +37,10 @@ export default function Home() {
 
   useEffect(() => {
     async function loadLibs() {
-      let [reachStdlib, myAlgoConnectLib] = await Promise.all([
-        import('@reach-sh/stdlib'),
-        import('@reach-sh/stdlib/ALGO_MyAlgoConnect')
-      ])
+      const reachStdlib = await import('@reach-sh/stdlib')
       reach.current = reachStdlib.loadStdlib({ ...process.env, 'REACH_CONNECTOR_MODE': 'ALGO' })
-      myAlgoConnect.current = myAlgoConnectLib.default
-
-      try {
-        let walletConnectLib = await import('@reach-sh/stdlib/ALGO_WalletConnect')
-        walletConnect.current = walletConnectLib.default
-      } catch (e) {
-        console.error('Error when loading ALGO_WalletConnect', e)
-      }
-
+      myAlgoConnect.current = reachStdlib.ALGO_MyAlgoConnect
+      walletConnect.current = reachStdlib.ALGO_WalletConnect
       setLoading(false)
     }
     loadLibs()
