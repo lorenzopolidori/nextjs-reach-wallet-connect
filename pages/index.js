@@ -1,6 +1,7 @@
 import Head from 'next/head'
 import { loadStdlib } from '@reach-sh/stdlib';
-import MyAlgoConnect from '@reach-sh/stdlib/ALGO_MyAlgoConnect';
+import { ALGO_MyAlgoConnect as MyAlgoConnect } from '@reach-sh/stdlib';
+import { ALGO_WalletConnect as WalletConnect } from '@reach-sh/stdlib';
 const stdlib = loadStdlib({ ...process.env, 'REACH_CONNECTOR_MODE': 'ALGO' });
 
 export default function Home() {
@@ -10,6 +11,8 @@ export default function Home() {
   }
 
   async function connectPeraWallet() {
+    setWallet({ WalletConnect: WalletConnect })
+    await connectWallet()
   }
 
   function setWallet(wallet) {
