@@ -3,6 +3,7 @@ import { useRef, useState, useEffect } from 'react'
 
 export default function Home() {
   const reach = useRef()
+  const reachStdlib = useRef()
   const myAlgoConnect = useRef()
   const walletConnect = useRef()
   const [loading, setLoading] = useState(true)
@@ -18,6 +19,7 @@ export default function Home() {
   }
 
   function setWallet(wallet) {
+    reach.current = reachStdlib.current.loadStdlib({ ...process.env, 'REACH_CONNECTOR_MODE': 'ALGO' })
     reach.current.setWalletFallback(reach.current.walletFallback({
       providerEnv: 'TestNet', ...wallet
     }))
@@ -37,10 +39,9 @@ export default function Home() {
 
   useEffect(() => {
     async function loadLibs() {
-      const reachStdlib = await import('@reach-sh/stdlib')
-      reach.current = reachStdlib.loadStdlib({ ...process.env, 'REACH_CONNECTOR_MODE': 'ALGO' })
-      myAlgoConnect.current = reachStdlib.ALGO_MyAlgoConnect
-      walletConnect.current = reachStdlib.ALGO_WalletConnect
+      reachStdlib.current = await import('@reach-sh/stdlib')
+      myAlgoConnect.current = reachStdlib.current.ALGO_MyAlgoConnect
+      walletConnect.current = reachStdlib.current.ALGO_WalletConnect
       setLoading(false)
     }
     loadLibs()
